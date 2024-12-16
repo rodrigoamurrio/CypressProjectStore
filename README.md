@@ -36,6 +36,11 @@ Execute the following command:
 ```bash
 npx cypress run
 ```
+or
+
+```bash
+npx cypress run -headed
+```
 ## Open test report
 
 1. Go to cypress/reports and copy the path of the index.html and paste to browser.
