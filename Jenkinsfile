@@ -33,15 +33,17 @@ pipeline {
             }
         }
 
-        stage('Publicar reporte HTML') {
+          stage('Publicar reporte HTML') {
             steps {
-                publishHTML(target: [
-                    reportDir: 'cypress/reports/html',
-                    reportFiles: 'index.html',
-                    reportName: 'Reporte Cypress HTML',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true
-                ])
+                script {
+                    publishHTML(target: [
+                        reportDir: 'cypress/reports/html',
+                        reportFiles: 'index.html',
+                        reportName: 'Reporte Cypress HTML',
+                        keepAll: true,
+                        alwaysLinkToLastBuild: true
+                    ])
+                }
             }
         }
     }
