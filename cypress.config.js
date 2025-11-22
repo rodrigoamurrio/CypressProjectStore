@@ -6,11 +6,13 @@ module.exports = defineConfig({
     video: true,
     retries: 2,
     reporterOptions: {
-      charts: true,
-      reportPageTitle: 'Cypress Test Report',
-      embeddedScreenshots: true,
-      inlineAssets: true,
-      saveAllAttempts: false
+        reportDir: 'cypress/reports/html',
+        overwrite: false,
+        html: true,
+        json: true,          // <-- Muy importante
+        charts: true,
+        inlineAssets: true,
+        saveAllAttempts: true 
     },
   env: {
     url: 'https://www.demoblaze.com/index.html'
