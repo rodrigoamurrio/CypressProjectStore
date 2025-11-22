@@ -29,31 +29,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Fusionar reports Mochawesome') {
-            steps {
-                bat 'npx mochawesome-merge cypress\\reports\\*.json > cypress\\reports\\report.json'
-            }
-        }
-
-        stage('Generar HTML Mochawesome') {
-            steps {
-                bat 'npx marge cypress\\reports\\report.json --reportDir cypress\\reports'
-            }
-        }
-
-        stage('Publicar reporte en Jenkins') {
-            steps {
-                publishHTML(target: [
-                    reportDir: 'cypress/reports',
-                    reportFiles: 'index.html',
-                    reportName: 'Reporte Cypress Mochawesome',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
-                ])
-            }
-        }
     }
 
     post {
