@@ -25,26 +25,25 @@ pipeline {
             }
             post {
                 always {
+                    // Archivar videos y capturas de pantalla
                     archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
-                }
-            }
-            post {
-                always {
+                    // Archivar reporte HTML
                     archiveArtifacts artifacts: 'reports/html/index.html', allowEmptyArchive: false
                 }
             }
         }
+
         stage('Publicar reporte HTML') {
-    steps {
-        publishHTML(target: [
-            reportDir: 'reports/html',
-            reportFiles: 'index.html',
-            reportName: 'Reporte Cypress HTML',
-            keepAll: true,
-            alwaysLinkToLastBuild: true
-        ])
-    }
-}
+            steps {
+                publishHTML(target: [
+                    reportDir: 'reports/html',
+                    reportFiles: 'index.html',
+                    reportName: 'Reporte Cypress HTML',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+            }
+        }
     }
 
     post {
