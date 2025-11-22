@@ -36,7 +36,7 @@ pipeline {
         stage('Publicar reporte HTML') {
             steps {
                 publishHTML(target: [
-                    reportDir: 'reports/html',
+                    reportDir: 'cypress/reports/html',
                     reportFiles: 'index.html',
                     reportName: 'Reporte Cypress HTML',
                     keepAll: true,
