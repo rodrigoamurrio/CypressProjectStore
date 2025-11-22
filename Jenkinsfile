@@ -28,16 +28,17 @@ pipeline {
                     // Archivar videos y capturas de pantalla
                     archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
                     // Archivar reporte HTML
-                    archiveArtifacts artifacts: 'cypress/reports/html/index.html', allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: false
                 }
             }
         }
 
        stage('Publicar reporte HTML') {
         steps {
-            publishHTML(target: [
+            publishHTML([
+                allowMissing: false,
                 reportDir: 'cypress/reports/html',
-                reportFiles: 'index.html',
+                reportFiles: '**/*.html', // <-- publicamos todos los HTML
                 reportName: 'Reporte Cypress HTML',
                 keepAll: true,
                 alwaysLinkToLastBuild: true
