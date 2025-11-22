@@ -28,7 +28,7 @@ pipeline {
                     // Archivar videos y capturas de pantalla
                     archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
                     // Archivar reporte HTML
-                    archiveArtifacts artifacts: 'reports/html/index.html', allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'cypress/reports/html/index.html', allowEmptyArchive: false
                 }
             }
         }
