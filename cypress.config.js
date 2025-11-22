@@ -2,17 +2,16 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
-  reporterOptions: {
-    reportDir: 'cypress/reports',   // Carpeta donde se guardan los reportes
-    overwrite: false,               // No sobrescribir reportes anteriores
-    html: true,                     // Generar HTML
-    json: true,                     // Generar JSON (necesario para merge)
-    charts: true
-  },
-  video: true,                      // Grabar videos de las pruebas
-  screenshotOnRunFailure: true,     // Tomar screenshot si falla un test
-  videosFolder: 'cypress/videos',   // Carpeta de videos
-  screenshotsFolder: 'cypress/screenshots', // Carpeta de screenshots
+  screenshotOnRunFailure:true,
+    video: true,
+    retries: 2,
+    reporterOptions: {
+      charts: true,
+      reportPageTitle: 'Cypress Test Report',
+      embeddedScreenshots: true,
+      inlineAssets: true,
+      saveAllAttempts: false
+    },
   env: {
     url: 'https://www.demoblaze.com/index.html'
   },
@@ -22,6 +21,5 @@ module.exports = defineConfig({
       require('cypress-mochawesome-reporter/plugin')(on);
     },
     specPattern: 'cypress/e2e/tests/*.js', // Asegúrate que tus tests estén aquí
-    baseUrl: 'https://www.demoblaze.com'
   }
 });
