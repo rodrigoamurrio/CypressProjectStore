@@ -28,7 +28,23 @@ pipeline {
                     archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
                 }
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'reports/html/index.html', allowEmptyArchive: false
+                }
+            }
         }
+        stage('Publicar reporte HTML') {
+    steps {
+        publishHTML(target: [
+            reportDir: 'reports/html',
+            reportFiles: 'index.html',
+            reportName: 'Reporte Cypress HTML',
+            keepAll: true,
+            alwaysLinkToLastBuild: true
+        ])
+    }
+}
     }
 
     post {
