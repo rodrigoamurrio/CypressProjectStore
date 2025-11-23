@@ -56,6 +56,9 @@ pipeline {
         stage('Publicar Reporte HTML') {
             steps {
                 publishHTML([
+                    allowMissing: false,
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
                     reportDir: 'cypress/reports/html',
                     reportFiles: 'merged-report.html',
                     reportName: 'Reporte Cypress HTML'
