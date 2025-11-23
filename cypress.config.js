@@ -6,6 +6,7 @@ module.exports = defineConfig({
     video: true,
     retries: 2,
     reporterOptions: {
+      reportDir: 'cypress/reports/html',
       charts: true,
       reportPageTitle: 'Cypress Test Report',
       embeddedScreenshots: true,
