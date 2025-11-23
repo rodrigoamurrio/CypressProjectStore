@@ -14,9 +14,9 @@ pipeline {
         }
 
         stage('Crear carpeta reportes') {
-            steps {
-                bat "mkdir cypress\\reports\\html || echo carpeta existe"
-            }
+             steps {
+                    bat "mkdir cypress\\reports\\html /p"
+                }
         }
 
         stage('Permisos carpeta reportes') {
