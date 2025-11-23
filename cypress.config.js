@@ -8,6 +8,9 @@ module.exports = defineConfig({
     html: true,
     json: true,
   },
+    env: {
+    url: 'https://www.demoblaze.com/index.html'
+  },
 
   e2e: {
     setupNodeEvents(on, config) {
