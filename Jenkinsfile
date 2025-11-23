@@ -13,22 +13,6 @@ pipeline {
             }
         }
 
-        stage('Crear carpeta reportes') {
-            steps {
-                        bat """
-            cd %WORKSPACE%
-            if not exist cypress\\reports\\html mkdir cypress\\reports\\html
-        """
-            }
-        }
-
-        stage('Permisos carpeta reportes') {
-            steps {
-               bat "icacls cypress/reports/html /grant \"%USERNAME%\":F"
-
-            }
-        }
-
         stage('Instalar Dependencias') {
             steps {
                 bat "npm install"
