@@ -20,6 +20,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // Plugin de mochawesome
       require('cypress-mochawesome-reporter/plugin')(on);
+      return config;
     },
     specPattern: 'cypress/e2e/tests/*.js', // Asegúrate que tus tests estén aquí
   }
