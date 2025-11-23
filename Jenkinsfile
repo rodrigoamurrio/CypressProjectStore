@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs "node25"
+        nodejs "node25" // Asegúrate de tener NodeJS configurado en Jenkins con este nombre
     }
 
     stages {
@@ -21,37 +21,35 @@ pipeline {
 
         stage('Ejecutar Pruebas Cypress') {
             steps {
-                bat "npx cypress run"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'cypress/screenshots/**', allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'cypress/videos/**', allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'cypress/reports/html/*.json', allowEmptyArchive: true
-                }
+                // Ejecuta Cypress usando Mochawesome reporter
+                bat "npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports/json,overwrite=false,html=false,json=true"
             }
         }
 
-        stage('Generar Reporte Mochawesome') {
+        stage('Merge JSON y Generar HTML') {
             steps {
-                bat """
-                npx mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/merged-report.json
-                npx marge cypress/reports/html/merged-report.json --reportDir cypress/reports/html --inline
-                """
+                // Une todos los JSON en uno solo
+                bat "npx mochawesome-merge cypress/reports/json/*.json > cypress/reports/json/report.json"
+                // Genera el reporte HTML
+                bat "npx mochawesome-report-generator cypress/reports/json/report.json -o cypress/reports/html"
             }
         }
+    }
 
-        stage('Publicar Reporte HTML') {
-            steps {
-                publishHTML([
-                    allowMissing: false,
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    reportDir: 'cypress/reports/html',
-                    reportFiles: 'merged-report.html',
-                    reportName: 'Reporte Cypress HTML'
-                ])
-            }
+    post {
+        always {
+            // Archiva el reporte HTML como artefacto
+            archiveArtifacts artifacts: 'cypress/reports/html/**', fingerprint: true
+
+            // Publica el HTML usando HTML Publisher
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'cypress/reports/html',
+                reportFiles: 'report.html',
+                reportName: 'Reporte Cypress Mochawesome'
+            ])
         }
     }
 }
