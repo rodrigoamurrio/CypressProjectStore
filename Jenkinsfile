@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -24,8 +25,12 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: true
+                    // Archivar videos y capturas
+                    archiveArtifacts artifacts: 'cypress/videos/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'cypress/screenshots/**', allowEmptyArchive: true
+                    
+                    // Archivar JSONs para el merge
+                    archiveArtifacts artifacts: 'cypress/reports/html/*.json', allowEmptyArchive: true
                 }
             }
         }
@@ -37,17 +42,22 @@ pipeline {
                 npx marge cypress/reports/html/merged-report.json --reportDir cypress/reports/html --inline
                 """
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: true
+                }
+            }
         }
 
-        stage('Publicar reporte HTML') {
+        stage('Publicar Reporte HTML') {
             steps {
                 publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
                     reportDir: 'cypress/reports/html',
                     reportFiles: 'merged-report.html',
-                    reportName: 'Reporte Cypress HTML',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
+                    reportName: 'Reporte Cypress HTML'
                 ])
             }
         }
