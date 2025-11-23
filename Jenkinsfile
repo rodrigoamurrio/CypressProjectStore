@@ -24,7 +24,7 @@ pipeline {
 
         stage('Permisos carpeta reportes') {
             steps {
-               icacls cypress\reports\html /grant "%USERNAME%":F
+               bat "icacls cypress/reports/html /grant \"%USERNAME%\":F"
 
             }
         }
