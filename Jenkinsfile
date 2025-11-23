@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -25,23 +24,30 @@ pipeline {
             }
             post {
                 always {
-                    // Archivar videos y capturas de pantalla
                     archiveArtifacts artifacts: 'cypress/videos/**, cypress/screenshots/**', allowEmptyArchive: true
-                    // Archivar reporte HTML
-                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: true
                 }
             }
         }
 
-       stage('Publicar reporte HTML') {
-        steps {
-            publishHTML([
-                allowMissing: false,
-                reportDir: 'cypress/reports/html',
-                reportFiles: '**/*.html', // <-- publicamos todos los HTML
-                reportName: 'Reporte Cypress HTML',
-                keepAll: true,
-                alwaysLinkToLastBuild: true
+        stage('Generar Reporte Mochawesome') {
+            steps {
+                bat """
+                npx mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/merged-report.json
+                npx marge cypress/reports/html/merged-report.json --reportDir cypress/reports/html --inline
+                """
+            }
+        }
+
+        stage('Publicar reporte HTML') {
+            steps {
+                publishHTML([
+                    reportDir: 'cypress/reports/html',
+                    reportFiles: 'merged-report.html',
+                    reportName: 'Reporte Cypress HTML',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
                 ])
             }
         }
