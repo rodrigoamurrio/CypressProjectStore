@@ -13,6 +13,18 @@ pipeline {
             }
         }
 
+        stage('Crear carpeta reportes') {
+            steps {
+                bat "mkdir cypress\\reports\\html || echo carpeta existe"
+            }
+        }
+
+        stage('Permisos carpeta reportes') {
+            steps {
+                bat "icacls cypress\\reports\\html /grant Everyone:F"
+            }
+        }
+
         stage('Instalar Dependencias') {
             steps {
                 bat "npm install"
@@ -25,11 +37,8 @@ pipeline {
             }
             post {
                 always {
-                    // Archivar videos y capturas
-                    archiveArtifacts artifacts: 'cypress/videos/**', allowEmptyArchive: true
                     archiveArtifacts artifacts: 'cypress/screenshots/**', allowEmptyArchive: true
-                    
-                    // Archivar JSONs para el merge
+                    archiveArtifacts artifacts: 'cypress/videos/**', allowEmptyArchive: true
                     archiveArtifacts artifacts: 'cypress/reports/html/*.json', allowEmptyArchive: true
                 }
             }
@@ -42,30 +51,16 @@ pipeline {
                 npx marge cypress/reports/html/merged-report.json --reportDir cypress/reports/html --inline
                 """
             }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'cypress/reports/html/**', allowEmptyArchive: true
-                }
-            }
         }
 
         stage('Publicar Reporte HTML') {
             steps {
                 publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
                     reportDir: 'cypress/reports/html',
                     reportFiles: 'merged-report.html',
                     reportName: 'Reporte Cypress HTML'
                 ])
             }
-        }
-    }
-
-    post {
-        always {
-            echo "Pipeline finalizado"
         }
     }
 }
