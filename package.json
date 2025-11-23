@@ -4,20 +4,12 @@
   "description": "Automation on demoblaze product store",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cy:run": "cypress run",
-    "cy:report": "cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports/json,overwrite=false,html=false,json=true",
-    "merge:report": "npx mochawesome-merge cypress/reports/json/*.json > cypress/reports/json/report.json",
-    "generate:report": "npx mochawesome-report-generator cypress/reports/json/report.json -o cypress/reports/html"
-
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rodrigo Amurrio",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^15.6.0",
-    "cypress-mochawesome-reporter": "^3.8.4",
-    "mochawesome": "^7.1.4",
-    "mochawesome-merge": "^4.4.1",
-    "mochawesome-report-generator": "^6.3.2"
+    "cypress": "^13.16.1",
+    "cypress-mochawesome-reporter": "^3.8.2"
   }
 }
