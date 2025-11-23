@@ -15,8 +15,10 @@ pipeline {
 
         stage('Crear carpeta reportes') {
             steps {
-                 // Opción con barra normal
-               bat "mkdir cypress/reports/html /p"
+                        bat """
+            cd %WORKSPACE%
+            if not exist cypress\\reports\\html mkdir cypress\\reports\\html
+        """
             }
         }
 
