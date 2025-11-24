@@ -9,8 +9,7 @@
     "merge-reports": "npx mochawesome-merge cypress/reports/html/mochawesome_*.json > cypress/reports/html/report.json",
     "generate-report": "marge cypress/reports/html/report.json -f mochawesome -o cypress/reports/html",
     "clean-html": "del cypress\\reports\\html\\mochawesome_*.html & del cypress\\reports\\html\\mochawesome.html",
-    "prepare-index": "echo ^<meta http-equiv='refresh' content='0; url=report.html'^> > cypress\\reports\\html\\index.html",
-     "full-report": "npm run cypress:run && npm run merge-reports && npm run generate-report && npm run clean-html && npm run prepare-index"
+    "prepare-index": "echo ^<meta http-equiv='refresh' content='0; url=report.html'^> > cypress\\reports\\html\\index.html"
   },
   "author": "Rodrigo Amurrio",
   "license": "ISC",
