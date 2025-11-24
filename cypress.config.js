@@ -1,25 +1,25 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  reporter: 'cypress-mochawesome-reporter',
-  screenshotOnRunFailure:true,
-    video: true,
-    retries: 2,
-    reporterOptions: {
-      reportDir: 'cypress/reports/html',
-      charts: true,
-      reportPageTitle: 'Cypress Test Report',
-      embeddedScreenshots: true,
-      inlineAssets: true,
-      saveAllAttempts: false
-    },
+  screenshotOnRunFailure: true,
+  video: true,
+  retries: 2,
+  reporter: 'mochawesome', // <-- cambiamos al mochawesome clásico
+  reporterOptions: {
+    reportDir: 'cypress/reports/html', // ruta donde se guardarán los reportes
+    overwrite: false,                  // no sobreescribe reportes anteriores
+    html: true,                        // genera HTML
+    json: true,                        // genera JSON (necesario para merge)
+    charts: true,
+    reportPageTitle: 'Cypress Test Report',
+    embeddedScreenshots: true,
+    inlineAssets: true,
+  },
   env: {
     url: 'https://www.demoblaze.com/index.html'
   },
   e2e: {
     setupNodeEvents(on, config) {
-      // Plugin de mochawesome
-      require('cypress-mochawesome-reporter/plugin')(on);
       return config;
     },
     specPattern: 'cypress/e2e/tests/*.js', // Asegúrate que tus tests estén aquí
