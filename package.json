@@ -4,7 +4,10 @@
   "description": "Automation on demoblaze product store",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:run": "cypress run",
+    "merge-reports": "mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/report.json",
+    "generate-report": "marge cypress/reports/html/report.json -f report -o cypress/reports/html"
   },
   "author": "Rodrigo Amurrio",
   "license": "ISC",
